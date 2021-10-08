@@ -1,0 +1,6 @@
+vendor/
+.idea/
+code_coverage/
+.env
+storage/
+composer.*

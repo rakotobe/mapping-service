@@ -1,0 +1,162 @@
+openapi: 3.0.0
+
+info:
+  version: 1.1.0
+  title: OnePortal Mapping Microservice
+
+servers:
+- url: 'http://localhost'
+
+paths:
+  /v1/map-addon/marketplace:
+    get:
+      tags:
+      - Addon mapping
+      description: Returns features/content mapped from the addons
+      operationId: mapAddon
+      parameters:
+      - name: addonIds
+        in: query
+        description: list of addon Ids in json encoded format
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddonMap'
+        '400':
+          description: Mandatory field.
+  /v1/map-addon/probiller:
+    get:
+      tags:
+      - Addon mapping
+      description: Returns features/content mapped from the addons
+      operationId: mapProbillerAddon
+      parameters:
+      - name: probillerAddonIds
+        in: query
+        description: list of probiller addon Ids in json encoded format
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddonMap'
+        '400':
+          description: Mandatory field.
+  /v1/map-bundle/marketplace:
+    get:
+      tags:
+        - Bundle mapping
+      description: Returns bundles mapped from the bundleId
+      operationId: mapBundle
+      parameters:
+        - name: bundleIds
+          in: query
+          description: list of addon Ids in json encoded format
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfBundles'
+        '400':
+          description: Mandatory field.
+  /v1/map-bundle/probiller:
+    get:
+      tags:
+        - Bundle mapping
+      description: Returns bundles mapped from the probillerBundleId
+      operationId: mapProbillerBundle
+      parameters:
+        - name: probillerBundleIds
+          in: query
+          description: list of probiller bundle Ids in json encoded format
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfBundles'
+        '400':
+          description: Mandatory field.
+components:
+  schemas:
+    AddonMap:
+      type: object
+      properties:
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddonFeature'
+        contentGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddonContent'
+    AddonFeature:
+      type: object
+      properties:
+        addonId:
+          type: integer
+        probillerAddonId:
+          type: string
+        featureName:
+          type: string
+        title:
+          type: string
+        thumb:
+          type: string
+    AddonContent:
+      type: object
+      properties:
+        addonId:
+          type: integer
+        probillerAddonId:
+          type: string
+        contentGroupId:
+          type: string
+        title:
+          type: string
+        thumb:
+          type: string
+    Bundle:
+      type: object
+      properties:
+        bundleId:
+          type: integer
+        probillerBundleId:
+          type: string
+        internalName:
+          type: string
+        title:
+          type: string
+        instance:
+          type: string
+        thumb:
+          type: string
+        description:
+          type: string
+        taxClassification:
+          type: string
+    ArrayOfBundles:
+      description:
+        Array of bundles
+      items:
+        $ref: '#/components/schemas/Bundle'
+

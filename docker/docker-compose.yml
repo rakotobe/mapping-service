@@ -1,0 +1,20 @@
+version: '3'
+services:
+  addon_mapping_api_php:
+    container_name: addon_mapping_api_php
+    image: ${DOCKER_PRIVATE_REGISTRY}/php-memcached:${DOCKER_PHP_VERSION}
+    links:
+      - addon_mapping_memcached
+    volumes:
+      - ../:/var/www/html
+      - ./php/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    env_file:
+      - .env
+    environment:
+      - XDEBUG_ENABLED=1
+      - XDEBUG_CONFIG=idekey=PHPSTORM remote_host=${XDEBUG_LOCAL_HOST}
+      - PHP_IDE_CONFIG=serverName=localhost
+      - OPCACHE_ENABLED=1
+  addon_mapping_memcached:
+    container_name: ${DOCKER_PROJECT_NAME}_memcached
+    image: ${DOCKER_PRIVATE_REGISTRY}/${DOCKER_MEMCACHED_IMAGE}:${DOCKER_MEMCACHED_IMAGE_VERSION}

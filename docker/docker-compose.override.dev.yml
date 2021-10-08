@@ -1,0 +1,5 @@
+version: '3'
+services:
+  addon_mapping_api_php:
+    ports:
+      - 8080:80
